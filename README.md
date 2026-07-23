@@ -28,22 +28,7 @@ After library issues with DShot under ESP-IDF / PlatformIO, the flight code move
 
 A Qt 6 ground station in `Emitter/QT_Controller/` connects over Wi-Fi and sends stick / config commands by UDP.
 
-### If you just want to run it (nothing to install)
-
-On Linux **x86_64**, take the portable AppImage (from a release or built by someone else). Qt and libraries are already bundled — you do **not** need to install cmake, Qt, or run `install-deps.sh`.
-
-```bash
-chmod +x drone_controller-x86_64.AppImage
-./drone_controller-x86_64.AppImage
-```
-
-PID / motor offsets are saved under `~/.config/drone_controller/initialValues.ini`.
-
-An Xbox-style gamepad named `Generic X-Box pad` is optional; without it the UI still starts (sticks can be moved with the on-screen sliders).
-
-### If you want to build from source (developers)
-
-You need a package manager (`apt` / `dnf` / `yum`). From a clean machine:
+From a clean Linux machine (`apt` / `dnf` / `yum`):
 
 ```bash
 git clone <repo-url>
@@ -58,17 +43,9 @@ cmake --build build -j"$(nproc)"
 
 Use **CMake + Qt6 only** — do not use `qmake` / Qt5 (`qmake` on Ubuntu often points to Qt5).
 
-To produce the AppImage yourself (after the steps above):
+PID / motor offsets are saved under `~/.config/drone_controller/initialValues.ini`.
 
-```bash
-./packaging/build-appimage.sh
-./drone_controller-x86_64.AppImage
-```
-
-| Who | What to do |
-| --- | --- |
-| End user | Run the `.AppImage` |
-| Contributor / packager | `install-deps.sh` → cmake build → optional `build-appimage.sh` |
+An Xbox-style gamepad named `Generic X-Box pad` is optional; without it the UI still starts (sticks can be moved with the on-screen sliders).
 
 ## Simulation
 

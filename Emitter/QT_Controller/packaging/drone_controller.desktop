@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Drone Controller
-Comment=Robotech ground station for ESP32 drone
-Exec=drone_controller
-Icon=drone_controller
-Categories=Science;
-Terminal=false

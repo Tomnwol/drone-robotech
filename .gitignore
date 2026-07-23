@@ -46,7 +46,3 @@ moc_*.cpp
 ui_*.h
 qrc_*.cpp
 build/
-build-appimage/
-Emitter/QT_Controller/packaging/tools/
-Emitter/QT_Controller/*.AppImage
-*.AppImage

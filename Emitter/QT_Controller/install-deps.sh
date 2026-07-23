@@ -30,10 +30,6 @@ case "$PM" in
             build-essential \
             cmake \
             pkg-config \
-            curl \
-            libfuse2 \
-            imagemagick \
-            rsync \
             qt6-base-dev \
             qt6-declarative-dev \
             qt6-quick3d-dev \
@@ -54,9 +50,6 @@ case "$PM" in
             make \
             cmake \
             pkgconf-pkg-config \
-            curl \
-            fuse \
-            ImageMagick \
             qt6-qtbase-devel \
             qt6-qtdeclarative-devel \
             qt6-qtquick3d-devel \
@@ -71,9 +64,6 @@ case "$PM" in
             make \
             cmake \
             pkgconfig \
-            curl \
-            fuse \
-            ImageMagick \
             qt6-qtbase-devel \
             qt6-qtdeclarative-devel \
             qt6-qtquick3d-devel \
@@ -106,9 +96,6 @@ if [ "$MISSING" -eq 0 ]; then
     echo "  cmake -S . -B build -DCMAKE_BUILD_TYPE=Release"
     echo "  cmake --build build -j\$(nproc)"
     echo "  ./build/drone_controller"
-    echo
-    echo "AppImage:"
-    echo "  ./packaging/build-appimage.sh"
 else
     echo "Some modules are still missing. Check the package names for your"
     echo "distribution (they can vary between Ubuntu/Fedora versions)."

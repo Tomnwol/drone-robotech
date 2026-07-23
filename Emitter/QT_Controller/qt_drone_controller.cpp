@@ -39,7 +39,7 @@ protected:
 int main(int argc, char *argv[])
 {
     /*APPLICATION SETUP*/
-    // Prefer X11 when Wayland is requested but the plugin is missing (common in AppImages).
+    // Prefer X11 when Wayland is advertised but the plugin may be missing.
     if (qgetenv("QT_QPA_PLATFORM").isEmpty()) {
         qputenv("QT_QPA_PLATFORM", QByteArrayLiteral("xcb"));
     }
