@@ -1,26 +1,39 @@
-Bienvenue dans le git du drone de **Robotech** 2025/2026.
-Notre projet est de créer un drone 5" basé sur une ESP32.
+# Robotech Drone — 2025/2026
 
-# -- Démarche globale --
+ESP32-based 5" drone built by the Robotech team. Attitude is estimated from a 9-axis IMU, then converted into motor commands through a PID loop. Control and telemetry go over the ESP32's built-in Wi-Fi (UDP).
 
-L'idée principale est d'utiliser un IMU 9 axes (accéléromètre, gyroscope, magnétomètre) pour obtenir une estimation d'attitude et ainsi pouvoir obtenir une commande angulaire qui sera par la suite exécutée par les moteurs.
+## Approach
 
-# -- COMPOSANTS --
+A 9-axis IMU (accelerometer, gyroscope, magnetometer) feeds a Madgwick AHRS filter to estimate attitude. Angular commands from that estimate drive the motors via DShot.
 
-- Microprocesseur : *ESP32 DevKit*
-- Accéléromètre/Gyroscope : *MPU-9265*
-- Magnétomètre : *GY-271* (optionnel)
-- Moteurs : *XING-E Pro 2207 1800KV 2-6S - Iflight*
-- ESC : Hobbywing - *XRotor Micro 65A G2 4in1 AM32*
-- Batterie : *LiPo GNB 6S 2200mAh 120C - XT60 - Gaoneng*
-- Antenne RF : *NRF24L01 + PA/LNA*
-- Frame : créée sur Fusion et imprimée en 3D
-- PCB : créé sur Kicad 9
+## Components
 
-# -- CODE --
+| Part         | Model                                      |
+| ------------ | ------------------------------------------ |
+| MCU          | ESP32 DevKit                               |
+| Accel / Gyro | MPU-9265                                   |
+| Magnetometer | GY-271 *(not-used)*                        |
+| Motors       | XING-E Pro 2207 1800KV 2–6S (iFlight)      |
+| ESC          | Hobbywing XRotor Micro 65A G2 4-in-1 AM32  |
+| Battery      | LiPo GNB 6S 2200 mAh 120C — XT60 (Gaoneng) |
+| Link         | ESP32 Wi-Fi (UDP)                          |
+| Frame        | Designed in Fusion 360, 3D-printed         |
+| PCB          | Designed in KiCad 9                        |
 
-Pour le code, après avoir eu des problèmes de librairie en ESP-IDF sur **PlatformIo** pour le DSHOT, nous avons finalement migré vers **Arduino IDE** pour avoir une version plus récente de la librairie DSHOTRMT.
+## Firmware
 
-# -- SIMULATION --
+After library issues with DShot under ESP-IDF / PlatformIO, the flight code moved to **Arduino IDE** to use a more recent **DSHOTRMT** build. Firmware lives under `main/`.
 
-Un fichier de simulation est disponible dans le répertoire /Simulation et permet de visualiser si le calcul d'attitude est cohérent et de visualiser 4 réponses moteurs, permettant ainsi de modifier les PID en conséquence.
+A Qt-based ground station in `Emitter/QT_Controller/` connects over Wi-Fi and sends stick / config commands by UDP.
+
+## Simulation
+
+`Simulation/simulation.py` visualizes attitude estimation and the four motor responses so PID gains can be tuned offline.
+
+## Media
+
+![Drone hardware](Videos/drone-hardware.jpg)
+
+<video src="Videos/20260323_190743.mp4" controls width="720"></video>
+
+<video src="Videos/20260323_191418.mp4" controls width="720"></video>
