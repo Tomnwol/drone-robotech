@@ -1,0 +1,15 @@
+# Normalize text files to LF in the repo (avoids zip/unzip CRLF noise on Windows)
+* text=auto eol=lf
+
+# Keep packaging scripts / desktop entries as LF (AppImage tools reject CRLF)
+*.sh text eol=lf
+*.desktop text eol=lf
+
+# Binary assets
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.mp4 binary
+*.AppImage binary

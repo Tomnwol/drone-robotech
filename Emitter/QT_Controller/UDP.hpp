@@ -7,7 +7,6 @@
 #include <cstdint>
 #include <QSerialPortInfo>
 #include <iostream>
-#define INITIAL_VALUES_PATH "initialValues.ini"
 // Adresse IP et port de l'ESP32
 const QString ESP_SSID = "ESP32_Tom";
 const QString ESP32_IP = "192.168.4.1";  // IP ESP32 en mode AP
@@ -29,7 +28,6 @@ typedef struct pl{
     uint8_t offsetMotorBL = 0;
     uint8_t offsetMotorBR = 0;
 }Payload;
-// QString initialValuesPath = "initialValues.ini";
 extern Payload payload;
 extern uint8_t droneBattery;
 extern int16_t droneYaw;

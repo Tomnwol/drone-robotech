@@ -1,0 +1,7 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+    <qresource prefix="/">
+        <file>cube.qml</file>
+        <file>initialValues.ini</file>
+    </qresource>
+</RCC>

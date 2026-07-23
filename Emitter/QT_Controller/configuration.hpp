@@ -1,6 +1,8 @@
 #ifndef __CONFIGURATION__H__
 #define __CONFIGURATION__H__
 #include <QSettings>
+#include <QString>
+
 struct Config {
     float Kp;
     float Ki;
@@ -12,6 +14,10 @@ struct Config {
 };
 
 extern Config my_config;
+
+/** Writable config path (~/.config/drone_controller/initialValues.ini). */
+QString configFilePath();
+
 Config loadConfig(const QString &filename);
 void saveConfig(const QString &filename);
 #endif

@@ -8,6 +8,7 @@
 #include <QSlider>
 #include <QQuickWidget>
 #include <QQuickItem>
+#include <iostream>
 #include "qtDroneBox.hpp"
 #include "UDP.hpp"
 #include "qtStyles.hpp"
@@ -103,15 +104,21 @@ void updateSlider() {
 }
 
 void updateDroneBox(){
+    if (!quickWidget || !yawSlider || !rollSlider || !pitchSlider
+        || !FL_Slider || !BL_Slider || !FR_Slider || !BR_Slider) {
+        return;
+    }
+    // QQuickWidget can recreate the scene after show()/resize — never cache root forever.
+    root = quickWidget->rootObject();
+    if (!root) {
+        return;
+    }
     updateColorCells( droneBattery );
     updateValueLabel( droneBatteryLabel, droneBattery );
     updateSlider();
-    //test++;
-    QMetaObject::invokeMethod(root, "setOrientation",
-                              Q_ARG(QVariant, 0),
-                              Q_ARG(QVariant, rollSlider->value()),
-                              Q_ARG(QVariant, pitchSlider->value()));
-
+    root->setProperty("orientYaw", 0);
+    root->setProperty("orientRoll", rollSlider->value());
+    root->setProperty("orientPitch", pitchSlider->value());
 }
 
 
@@ -213,7 +220,8 @@ void initDroneBox(){
         updateDroneBox();
 
     });
-    updateTimer->start();
+    // Do NOT start the timer here: QQuickWidget::setSource() can process events,
+    // and updateDroneBox() would run while root is still null.
 
     /***2. Motors***/
     QGroupBox *MotorsGroupBox = new QGroupBox("Motors");
@@ -246,13 +254,18 @@ void initDroneBox(){
     QGroupBox *attitude3DGroupBox = new QGroupBox("");
     quickWidget = new QQuickWidget(attitude3DGroupBox);
     quickWidget->setResizeMode(QQuickWidget::SizeRootObjectToView);
-    quickWidget->setSource(QUrl("cube.qml"));
+    quickWidget->setSource(QUrl(QStringLiteral("qrc:/cube.qml")));
 
     attitudesHbox->addWidget(attitudePBGroupBox);
     attitudesHbox->addWidget(quickWidget);
     attitudesGroupBox->setLayout(attitudesHbox);
 
     root = quickWidget->rootObject();
+    if (!root) {
+        std::cerr << "Warning: cube.qml failed to load (rootObject is null)\n";
+    } else {
+        updateTimer->start();
+    }
 
     //MotorsGroupBox->setStyleSheet(NORMAL_LABEL_STYLE);
     //attitudesGroupBox->setStyleSheet(NORMAL_LABEL_STYLE);

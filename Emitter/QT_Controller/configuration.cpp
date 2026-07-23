@@ -1,13 +1,29 @@
 #include "configuration.hpp"
 
+#include <QDir>
+#include <QFile>
+#include <QStandardPaths>
+
 Config my_config;
 
+QString configFilePath()
+{
+    const QString dir = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
+    QDir().mkpath(dir);
+    const QString path = dir + QStringLiteral("/initialValues.ini");
+
+    if (!QFile::exists(path)) {
+        QFile::copy(QStringLiteral(":/initialValues.ini"), path);
+        QFile::setPermissions(path, QFileDevice::ReadOwner | QFileDevice::WriteOwner);
+    }
+    return path;
+}
+
 Config loadConfig(const QString &filename) {
-    //Config my_config;
     QSettings settings(filename, QSettings::IniFormat);
 
     settings.beginGroup("PID");
-    my_config.Kp = settings.value("Kp", 0.0).toFloat(); // 0.0 par défaut
+    my_config.Kp = settings.value("Kp", 0.0).toFloat();
     my_config.Ki = settings.value("Ki", 0.0).toFloat();
     my_config.Kd = settings.value("Kd", 0.0).toFloat();
     settings.endGroup();

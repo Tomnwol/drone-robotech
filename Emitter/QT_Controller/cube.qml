@@ -2,30 +2,32 @@ import QtQuick
 import QtQuick3D
 
 Item {
+    id: root
     width: 200
     height: 200
 
-    // Contour
+    property real orientYaw: 0
+    property real orientRoll: 0
+    property real orientPitch: 0
+
     Rectangle {
         anchors.fill: parent
-        color: "transparent"      // fond transparent
-        border.color: "#434c5e"   // couleur du contour
+        color: "transparent"
+        border.color: "#434c5e"
         border.width: 2
-        radius: 4                 // arrondi facultatif
-        z: 1                      // pour que le border soit au-dessus si nécessaire
+        radius: 4
+        z: 1
     }
 
     View3D {
         anchors.fill: parent
-        z: 0  // en dessous du border
+        z: 0
         environment: SceneEnvironment {
             backgroundMode: SceneEnvironment.Color
-
             clearColor: "#303030"
         }
 
         PerspectiveCamera {
-            id: camera
             position: Qt.vector3d(0, 0, 400)
         }
 
@@ -34,27 +36,15 @@ Item {
         }
 
         Model {
-            id: cube
             source: "#Cube"
-            scale: Qt.vector3d(2,0.5,2)
-
-            property real pitch: 0
-            property real yaw: 0
-            property real roll: 0
-
-            eulerRotation.x: pitch
-            eulerRotation.y: yaw
-            eulerRotation.z: roll
-
+            scale: Qt.vector3d(2, 0.5, 2)
+            // Bound once at load; updated via root properties from C++.
+            eulerRotation.x: root.orientPitch
+            eulerRotation.y: root.orientYaw
+            eulerRotation.z: root.orientRoll
             materials: DefaultMaterial {
                 diffuseColor: "#5E85B5"
             }
         }
-    }
-
-    function setOrientation(y, r, p) {
-        cube.yaw = y
-        cube.roll = r
-        cube.pitch = p
     }
 }

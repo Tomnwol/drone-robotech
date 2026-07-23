@@ -40,4 +40,13 @@ out/
 
 # End of https://www.toptal.com/developers/gitignore/api/kicad
 
+# Qt / C++ build
 *.o
+moc_*.cpp
+ui_*.h
+qrc_*.cpp
+build/
+build-appimage/
+Emitter/QT_Controller/packaging/tools/
+Emitter/QT_Controller/*.AppImage
+*.AppImage

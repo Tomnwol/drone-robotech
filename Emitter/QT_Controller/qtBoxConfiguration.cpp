@@ -162,7 +162,7 @@ void initConfigurationBox(Config* config){
     );
 
     QObject::connect(save_button, &QPushButton::clicked, [](){
-        saveConfig(INITIAL_VALUES_PATH);
+        saveConfig(configFilePath());
         std::cout << "Configuration saved !\n";
     });
 

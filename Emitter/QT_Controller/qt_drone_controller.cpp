@@ -39,6 +39,11 @@ protected:
 int main(int argc, char *argv[])
 {
     /*APPLICATION SETUP*/
+    // Prefer X11 when Wayland is requested but the plugin is missing (common in AppImages).
+    if (qgetenv("QT_QPA_PLATFORM").isEmpty()) {
+        qputenv("QT_QPA_PLATFORM", QByteArrayLiteral("xcb"));
+    }
+
     QSurfaceFormat format;
     format.setDepthBufferSize(24);
     format.setStencilBufferSize(8);
@@ -46,12 +51,14 @@ int main(int argc, char *argv[])
     format.setProfile(QSurfaceFormat::CoreProfile);
     QSurfaceFormat::setDefaultFormat(format);
     QApplication app(argc, argv);
+    QCoreApplication::setOrganizationName(QStringLiteral("Robotech"));
+    QCoreApplication::setApplicationName(QStringLiteral("drone_controller"));
     QWidget window;
     window.resize(1500, 600);
     QSerialPort* serial = new QSerialPort(&window);
     window.setWindowTitle("Drone Controller Interface");
     QVBoxLayout layout;
-    my_config = loadConfig(INITIAL_VALUES_PATH);
+    my_config = loadConfig(configFilePath());
 
     initStartBox(serial);
     initConfigurationBox(&my_config);
